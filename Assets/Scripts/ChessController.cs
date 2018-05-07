@@ -1,36 +1,40 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class MainController : MonoBehaviour
+public class ChessController : MonoBehaviour
 {
+	public Piece SelectedPiece;
+	
+	private Tile[][] _tiles;
 
-	private Tile[][] _ranks;
-	private Tile[][] _files;
-	private Dictionary<string, Tile> _tileDict;
+	public Tile GetTile(int rank, int file)
+	{
+		return _tiles[rank][file];
+	}
 	
 	private void Start()
 	{
 
 		// Initialize `_ranks` and `_files` to 8x8 arrays
-		_ranks = new Tile[8][];
-		_files = new Tile[8][];
+		_tiles = new Tile[8][];
 		for (var i = 0; i < 8; i++)
 		{
-			_ranks[i] = new Tile[8];
-			_files[i] = new Tile[8];
+			_tiles[i] = new Tile[8];
 		}
 
 		// Get all the `Tile` objects and put them in `tiles`
+		// These are not guaranteed to be in order
+		// We need to sort them into a 2D array for simpler access
 		var tiles = FindObjectsOfType<Tile>();
 		
-		// Insert each tile as an entry into `_tileDict`
-		_tileDict = new Dictionary<string, Tile>();
+		// Insert each tile as an entry into `tileDict`
+		var tileDict = new Dictionary<string, Tile>();
 		foreach (var tile in tiles)
 		{
-			_tileDict.Add(tile.name, tile);
+			tileDict.Add(tile.name, tile);
 		}
 		
-		// Populate `_ranks` and `_files` with tiles in thier respective orders
+		// Populate `_tiles` in the appropriate order
 		for (var i = 0; i < 8; i++)
 		{
 			for (var j = 0; j < 8; j++)
@@ -41,8 +45,7 @@ public class MainController : MonoBehaviour
 				var x = (char) ((int) 'A' + j);
 				
 				// Query `_tileDict` dictionary for tiles from `1A` to `8H`
-				_ranks[i][j] = _tileDict[$"{n}{x}"];
-				_files[j][i] = _tileDict[$"{n}{x}"];
+				_tiles[i][j] = tileDict[$"{n}{x}"];
 			}
 		}
 	}

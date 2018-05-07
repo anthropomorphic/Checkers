@@ -4,13 +4,42 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
+    private ChessController _chess;
+    
     // Set in editor
     public Tile StartingTile;
 
-    private Tile _currentTile;
+    public int Rank { get; private set; }
+    public int File { get; private set; }
 
     private void Start()
     {
-        _currentTile = StartingTile;
+        StartCoroutine(NonBlockingStart());
+    }
+    
+    private IEnumerator NonBlockingStart()
+    {
+        _chess = GameObject.FindObjectOfType<ChessController>();
+        
+        // Wait for `StartingTile` to be initialized
+        while (!StartingTile.IsInitialized)
+        {
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        Rank = StartingTile.Rank;
+        File = StartingTile.File;
+    }
+
+    private void OnMouseUp()
+    {
+        _chess.SelectedPiece = this;
+    }
+
+    public void MoveTo(int rank, int file, Vector3 pos)
+    {
+        Rank = rank;
+        File = file;
+        transform.position = pos;
     }
 }
