@@ -17,6 +17,10 @@ public class Piece : MonoBehaviour
         StartCoroutine(NonBlockingStart());
     }
     
+    /**
+     * Since this piece relies on the tile it resides on, it must wait for tile to be
+     * initialized first with this non-blocking coroutine
+     */
     private IEnumerator NonBlockingStart()
     {
         _chess = GameObject.FindObjectOfType<ChessController>();
@@ -30,7 +34,7 @@ public class Piece : MonoBehaviour
         Rank = StartingTile.Rank;
         File = StartingTile.File;
     }
-
+    
     private void OnMouseUp()
     {
         _chess.SelectedPiece = this;
