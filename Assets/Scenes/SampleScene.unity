@@ -4325,7 +4325,7 @@ GameObject:
   - component: {fileID: 1523051327}
   - component: {fileID: 1523051328}
   m_Layer: 0
-  m_Name: Chess
+  m_Name: Checkers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

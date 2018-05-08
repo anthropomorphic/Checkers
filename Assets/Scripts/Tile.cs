@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    private ChessController _chess;
+    private CheckersController _checkers;
 
     private Piece _occupant;
 
@@ -13,7 +13,7 @@ public class Tile : MonoBehaviour
     
     private void Start()
     {
-        _chess = GameObject.FindObjectOfType<ChessController>();
+        _checkers = GameObject.FindObjectOfType<CheckersController>();
         
         // Get rank and file from name ("3B" -> (3, 2))
         Rank = (int) name[0] - '1';
@@ -26,19 +26,19 @@ public class Tile : MonoBehaviour
     {
         
         // If no piece is selected, ignore the click
-        if (_chess.SelectedPiece == null) return;
+        if (_checkers.SelectedPiece == null) return;
         
         // Check if this tile can be moved to (not jumped to)
-        if (IsMovableFrom(_chess.SelectedPiece))
+        if (IsMovableFrom(_checkers.SelectedPiece))
         {
             // TODO: Check if there is a piece already there
             
             // TODO: Check if this piece is a king (can move backward)
             
-            _chess.SelectedPiece.MoveTo(Rank, File, transform.position);
+            _checkers.SelectedPiece.MoveTo(Rank, File, transform.position);
         }
         // If not, check if this tile can be jumped to
-        else if (IsJumpableFrom(_chess.SelectedPiece))
+        else if (IsJumpableFrom(_checkers.SelectedPiece))
         {
             // TODO: Check if there is a piece already there
             
@@ -46,7 +46,7 @@ public class Tile : MonoBehaviour
             
             // TODO: Check if there is an oponents piece on the intervening tile
             
-            _chess.SelectedPiece.MoveTo(Rank, File, transform.position);
+            _checkers.SelectedPiece.MoveTo(Rank, File, transform.position);
         }
     }
     

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ChessController : MonoBehaviour
+public class CheckersController : MonoBehaviour
 {
 	public Piece SelectedPiece;
 	

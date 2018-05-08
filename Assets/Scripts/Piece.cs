@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
-    private ChessController _chess;
+    private CheckersController _checkers;
     
     // Set in editor
     public Tile StartingTile;
@@ -23,7 +23,7 @@ public class Piece : MonoBehaviour
      */
     private IEnumerator NonBlockingStart()
     {
-        _chess = GameObject.FindObjectOfType<ChessController>();
+        _checkers = GameObject.FindObjectOfType<CheckersController>();
         
         // Wait for `StartingTile` to be initialized
         while (!StartingTile.IsInitialized)
@@ -37,7 +37,7 @@ public class Piece : MonoBehaviour
     
     private void OnMouseUp()
     {
-        _chess.SelectedPiece = this;
+        _checkers.SelectedPiece = this;
     }
 
     public void MoveTo(int rank, int file, Vector3 pos)
