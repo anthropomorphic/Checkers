@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BoardController : MonoBehaviour
 {
@@ -26,27 +25,15 @@ public class BoardController : MonoBehaviour
 		// These are not guaranteed to be in order
 		// We need to sort them into a 2D array for simpler access
 		var tiles = FindObjectsOfType<Tile>();
-		
-		// Insert each tile as an entry into `tileDict`
-		var tileDict = new Dictionary<string, Tile>();
+
 		foreach (var tile in tiles)
 		{
-			tileDict.Add(tile.name, tile);
-		}
-		
-		// Populate `_tiles` in the appropriate order
-		for (var i = 0; i < 8; i++)
-		{
-			for (var j = 0; j < 8; j++)
-			{
-				// Convert (0 -> 7) to ('1' -> '8')
-				var n = (char) ((int) '1' + i);
-				// Convert (0 -> 7) to ('A' -> 'H')
-				var x = (char) ((int) 'A' + j);
-				
-				// Query `_tileDict` dictionary for tiles from `1A` to `8H`
-				_tiles[i][j] = tileDict[$"{n}{x}"];
-			}
+			// Convert ('1' -> '8') to (0 -> 7)
+			var rank = (int) tile.name[0] - '1';
+			// Convert ('A' -> 'H') to (0 -> 7)
+			var file = (int) tile.name[1] - 'A';
+
+			_tiles[rank][file] = tile;
 		}
 	}
 }
