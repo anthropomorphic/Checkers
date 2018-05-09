@@ -4,6 +4,7 @@ public class BoardController : MonoBehaviour
 {
 	public Piece SelectedPiece;
 	
+	// A 2D array of tiles, accessed by `_tiles[rank][file]`
 	private Tile[][] _tiles;
 
 	public Tile GetTile(int rank, int file)
@@ -13,7 +14,6 @@ public class BoardController : MonoBehaviour
 	
 	private void Start()
 	{
-
 		// Initialize `_ranks` and `_files` to 8x8 arrays
 		_tiles = new Tile[8][];
 		for (var i = 0; i < 8; i++)
@@ -21,7 +21,7 @@ public class BoardController : MonoBehaviour
 			_tiles[i] = new Tile[8];
 		}
 
-		// Get all the `Tile` objects and put them in `tiles`
+		// Get all the `Tile` objects
 		// These are not guaranteed to be in order
 		// We need to sort them into a 2D array for simpler access
 		var tiles = FindObjectsOfType<Tile>();
