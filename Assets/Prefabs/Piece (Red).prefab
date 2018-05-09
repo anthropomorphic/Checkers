@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114045469800343484}
   - component: {fileID: 54910618806265764}
   m_Layer: 0
-  m_Name: Red Piece
+  m_Name: Piece (Red)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartingTile: {fileID: 0}
+  Color: 0
 --- !u!135 &135838867106762944
 SphereCollider:
   m_ObjectHideFlags: 1

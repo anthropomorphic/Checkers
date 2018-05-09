@@ -8,7 +8,13 @@ public class Piece : MonoBehaviour
     
     // Set in editor
     public Tile StartingTile;
-
+    public PieceColor Color;
+    
+    public enum PieceColor
+    {
+        Black, Red
+    }
+    
     public int Rank { get; private set; }
     public int File { get; private set; }
 

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 8195094282390725484}
   - component: {fileID: 65841673014781732}
   m_Layer: 0
-  m_Name: Black Tile
+  m_Name: Tile (Black)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae49e5ecad9bd43b68360f3e38c4bd47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Occupant: {fileID: 0}
 --- !u!1839735485 &8195094282390725484
 Tilemap:
   m_ObjectHideFlags: 1

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4441522872861468}
   - component: {fileID: 114285605734459674}
   m_Layer: 0
-  m_Name: White Tile
+  m_Name: Tile (White)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,3 +137,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae49e5ecad9bd43b68360f3e38c4bd47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Occupant: {fileID: 0}

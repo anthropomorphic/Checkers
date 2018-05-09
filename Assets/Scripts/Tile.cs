@@ -24,7 +24,6 @@ public class Tile : MonoBehaviour
 
     private void OnMouseUp()
     {
-        
         // If no piece is selected, ignore the click
         if (_board.SelectedPiece == null) return;
         
@@ -36,13 +35,17 @@ public class Tile : MonoBehaviour
         // Check if this tile can be jumped to
         if (IsJumpableFrom(_board.SelectedPiece))
         {
+            // Get the piece on the intervening tile (if there is one)
+            var jumpedPiece = GetJumpedOverTile(_board.SelectedPiece).Occupant;
+            
             // If there is no piece on the intervening tile, ignore the click
-            // TODO: Discriminate against who's piece it is
-            var jumpedOverTile = GetJumpedOverTile(_board.SelectedPiece);
-            if (jumpedOverTile.Occupant == null) return;
+            if (jumpedPiece == null) return;
+            
+            // If the jumped piece is of the same color as the selected piece, ignore the click
+            if (jumpedPiece.Color == _board.SelectedPiece.Color) return;
             
             // Otherwise, capture it
-            jumpedOverTile.Occupant.Capture();
+            jumpedPiece.Capture();
         }
         
         // Move the piece to this tile
