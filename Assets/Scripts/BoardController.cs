@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckersController : MonoBehaviour
+public class BoardController : MonoBehaviour
 {
 	public Piece SelectedPiece;
 	

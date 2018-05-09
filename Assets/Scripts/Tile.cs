@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    private CheckersController _checkers;
+    private BoardController _board;
 
     public Piece Occupant;
     
@@ -13,7 +13,7 @@ public class Tile : MonoBehaviour
     
     private void Start()
     {
-        _checkers = GameObject.FindObjectOfType<CheckersController>();
+        _board = GameObject.FindObjectOfType<BoardController>();
         
         // Get rank and file from name ("3B" -> (3, 2))
         Rank = (int) name[0] - '1';
@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour
     {
         
         // If no piece is selected, ignore the click
-        if (_checkers.SelectedPiece == null) return;
+        if (_board.SelectedPiece == null) return;
         
         // If this piece already has an occupant, ignore the click
         if (Occupant != null) return;
@@ -34,11 +34,11 @@ public class Tile : MonoBehaviour
         // TODO: Check if this piece is a king (can move backward)
         
         // Check if this tile can be jumped to
-        if (IsJumpableFrom(_checkers.SelectedPiece))
+        if (IsJumpableFrom(_board.SelectedPiece))
         {
             // If there is no piece on the intervening tile, ignore the click
             // TODO: Discriminate against who's piece it is
-            var jumpedOverTile = GetJumpedOverTile(_checkers.SelectedPiece);
+            var jumpedOverTile = GetJumpedOverTile(_board.SelectedPiece);
             if (jumpedOverTile.Occupant == null) return;
             
             // Otherwise, capture it
@@ -46,10 +46,10 @@ public class Tile : MonoBehaviour
         }
         
         // Move the piece to this tile
-        _checkers.SelectedPiece.MoveTo(Rank, File, transform.position);
+        _board.SelectedPiece.MoveTo(Rank, File, transform.position);
         
         // Deselect the piece we just moved
-        _checkers.SelectedPiece = null;
+        _board.SelectedPiece = null;
     }
     
     /**
@@ -92,6 +92,6 @@ public class Tile : MonoBehaviour
             fileOffset += fileChange;
         }
         // Get the tile and return it
-        return _checkers.GetTile(Rank + rankOffset, File + fileOffset);
+        return _board.GetTile(Rank + rankOffset, File + fileOffset);
     }
 }

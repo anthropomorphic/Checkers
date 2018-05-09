@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
-    private CheckersController _checkers;
+    private BoardController _board;
     
     // Set in editor
     public Tile StartingTile;
@@ -23,7 +23,7 @@ public class Piece : MonoBehaviour
      */
     private IEnumerator NonBlockingStart()
     {
-        _checkers = GameObject.FindObjectOfType<CheckersController>();
+        _board = GameObject.FindObjectOfType<BoardController>();
         
         // Wait for `StartingTile` to be initialized
         while (!StartingTile.IsInitialized)
@@ -37,7 +37,7 @@ public class Piece : MonoBehaviour
     
     private void OnMouseUp()
     {
-        _checkers.SelectedPiece = this;
+        _board.SelectedPiece = this;
     }
 
     /**
@@ -48,11 +48,11 @@ public class Piece : MonoBehaviour
      */
     public void MoveTo(int rank, int file, Vector3 pos)
     {
-        _checkers.GetTile(Rank, File).Occupant = null;
+        _board.GetTile(Rank, File).Occupant = null;
         Rank = rank;
         File = file;
         transform.position = pos;
-        _checkers.GetTile(Rank, File).Occupant = this;
+        _board.GetTile(Rank, File).Occupant = this;
     }
 
     /**
