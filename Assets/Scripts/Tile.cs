@@ -5,8 +5,8 @@ public class Tile : MonoBehaviour
 {
     private CheckersController _checkers;
 
-    private Piece _occupant;
-
+    public Piece Occupant;
+    
     public bool IsInitialized { get; private set; }
     public int Rank { get; private set; }
     public int File { get; private set; }
@@ -28,26 +28,28 @@ public class Tile : MonoBehaviour
         // If no piece is selected, ignore the click
         if (_checkers.SelectedPiece == null) return;
         
-        // Check if this tile can be moved to (not jumped to)
-        if (IsMovableFrom(_checkers.SelectedPiece))
+        // If this piece already has an occupant, ignore the click
+        if (Occupant != null) return;
+        
+        // TODO: Check if this piece is a king (can move backward)
+        
+        // Check if this tile can be jumped to
+        if (IsJumpableFrom(_checkers.SelectedPiece))
         {
-            // TODO: Check if there is a piece already there
+            // If there is no piece on the intervening tile, ignore the click
+            // TODO: Discriminate against who's piece it is
+            var jumpedOverTile = GetJumpedOverTile(_checkers.SelectedPiece);
+            if (jumpedOverTile.Occupant == null) return;
             
-            // TODO: Check if this piece is a king (can move backward)
-            
-            _checkers.SelectedPiece.MoveTo(Rank, File, transform.position);
+            // Otherwise, capture it
+            jumpedOverTile.Occupant.Capture();
         }
-        // If not, check if this tile can be jumped to
-        else if (IsJumpableFrom(_checkers.SelectedPiece))
-        {
-            // TODO: Check if there is a piece already there
-            
-            // TODO: Check if this piece is a king (can move backward)
-            
-            // TODO: Check if there is an oponents piece on the intervening tile
-            
-            _checkers.SelectedPiece.MoveTo(Rank, File, transform.position);
-        }
+        
+        // Move the piece to this tile
+        _checkers.SelectedPiece.MoveTo(Rank, File, transform.position);
+        
+        // Deselect the piece we just moved
+        _checkers.SelectedPiece = null;
     }
     
     /**
@@ -66,5 +68,30 @@ public class Tile : MonoBehaviour
     {
         // Return true if the ranks and files of the two tiles are different by exactly 2
         return Math.Abs(Rank - piece.Rank) == 2 && Math.Abs(File - piece.File) == 2;
+    }
+
+    /**
+     * Returns the Tile that resides between this tile and the one that `piece` occupies
+     *
+     * Returns null if `IsJumpableFrom(piece) == false`
+     */
+    private Tile GetJumpedOverTile(Piece piece)
+    {
+        if (!IsJumpableFrom(piece)) return null;
+        
+        // Find the offset in rank and file of the piece with respect to this tile
+        // (They will be either +2 or -2, as verified by `IsJumpableFrom()`)
+        var rankOffset = piece.Rank - Rank;
+        var fileOffset = piece.File - File;
+        
+        // Decrease the magnitude of the offsets to 1
+        {
+            var rankChange = rankOffset < 0 ? 1 : -1;
+            var fileChange = fileOffset < 0 ? 1 : -1;
+            rankOffset += rankChange;
+            fileOffset += fileChange;
+        }
+        // Get the tile and return it
+        return _checkers.GetTile(Rank + rankOffset, File + fileOffset);
     }
 }

@@ -40,10 +40,28 @@ public class Piece : MonoBehaviour
         _checkers.SelectedPiece = this;
     }
 
+    /**
+     * Moves the piece to a new tile, given by its rank, file, and position
+     *
+     * Also unregisters with the tile it leaves and
+     * registers with the tile it moves to
+     */
     public void MoveTo(int rank, int file, Vector3 pos)
     {
+        _checkers.GetTile(Rank, File).Occupant = null;
         Rank = rank;
         File = file;
         transform.position = pos;
+        _checkers.GetTile(Rank, File).Occupant = this;
+    }
+
+    /**
+     * Called when this piece gets captured
+     */
+    public void Capture()
+    {
+        // TODO: Move off to the side of the board
+        // For now, we'll just destroy the piece
+        Destroy(gameObject);
     }
 }
