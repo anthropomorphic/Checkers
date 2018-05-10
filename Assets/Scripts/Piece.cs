@@ -34,6 +34,9 @@ public class Piece : MonoBehaviour
         // If the piece is the wrong color (not their turn), ignore the click
         if (_board.PlayerTurn != Color) return;
         
+        // If a player has already won, ignore the click
+        if (_board.PlayerWon) return;
+        
         _board.SelectedPiece = this;
     }
 
@@ -61,6 +64,7 @@ public class Piece : MonoBehaviour
         // For now, we'll just destroy the piece
         Destroy(gameObject);
         _board.GetTile(Rank, File).Occupant = null;
+        _board.CapturePiece(Color);
     }
 
     public bool CanJump()

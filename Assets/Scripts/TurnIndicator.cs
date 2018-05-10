@@ -18,4 +18,9 @@ public class TurnIndicator : MonoBehaviour
 	{
 		_turnIndicatorMessage.text = $"{_board.PlayerTurn.ToString()}'s Turn";
 	}
+
+	public void PlayerWon(Piece.PlayerColor player)
+	{
+		_turnIndicatorMessage.text = $"{player.ToString()} Won!";
+	}
 }

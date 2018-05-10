@@ -20,40 +20,36 @@ public class Tile : MonoBehaviour
 
     private void OnMouseUp()
     {
-        // If no piece is selected, ignore the click
-        if (_board.SelectedPiece == null) return;
+        var selectedPiece = _board.SelectedPiece;
         
-        // If this piece already has an occupant, ignore the click
+        if (selectedPiece == null) return;
+        
+        // If this tile already has an occupant, ignore the click
         if (Occupant != null) return;
         
         // TODO: Check if this piece is a king (can move backward)
-
-        var didJump = false;
         
-        // Check if this tile can be jumped to
-        if (IsJumpableFrom(_board.SelectedPiece))
+        if (IsJumpableFrom(selectedPiece))
         {
-            // Get the piece on the intervening tile (if there is one)
-            var jumpedPiece = GetJumpedOverTile(_board.SelectedPiece).Occupant;
+            var jumpedPiece = GetJumpedOverTile(selectedPiece).Occupant;
             
-            // If there is no piece on the intervening tile, ignore the click
             if (jumpedPiece == null) return;
             
-            // If the jumped piece is of the same color as the selected piece, ignore the click
-            if (jumpedPiece.Color == _board.SelectedPiece.Color) return;
+            if (jumpedPiece.Color == selectedPiece.Color) return;
             
-            // Otherwise, capture it
             jumpedPiece.Capture();
             
-            didJump = true;
+            selectedPiece.MoveTo(Rank, File, transform.position);
+            
+            if (!selectedPiece.CanJump())
+            {
+                _board.EndTurn();
+            }
         }
-        
-        // Move the piece to this tile
-        _board.SelectedPiece.MoveTo(Rank, File, transform.position);
-
-        // End the turn if there is no possible double jump
-        if (!didJump || !_board.SelectedPiece.CanJump())
+        else if (IsMovableFrom(selectedPiece))
         {
+            selectedPiece.MoveTo(Rank, File, transform.position);
+            
             _board.EndTurn();
         }
     }
