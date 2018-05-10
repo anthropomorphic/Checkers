@@ -27,6 +27,8 @@ public class Tile : MonoBehaviour
         if (Occupant != null) return;
         
         // TODO: Check if this piece is a king (can move backward)
+
+        var didJump = false;
         
         // Check if this tile can be jumped to
         if (IsJumpableFrom(_board.SelectedPiece))
@@ -42,12 +44,18 @@ public class Tile : MonoBehaviour
             
             // Otherwise, capture it
             jumpedPiece.Capture();
+            
+            didJump = true;
         }
         
         // Move the piece to this tile
         _board.SelectedPiece.MoveTo(Rank, File, transform.position);
-        
-        _board.EndTurn();
+
+        // End the turn if there is no possible double jump
+        if (!didJump || !_board.SelectedPiece.CanJump())
+        {
+            _board.EndTurn();
+        }
     }
     
     /**

@@ -60,5 +60,34 @@ public class Piece : MonoBehaviour
         // TODO: Move off to the side of the board
         // For now, we'll just destroy the piece
         Destroy(gameObject);
+        _board.GetTile(Rank, File).Occupant = null;
+    }
+
+    public bool CanJump()
+    {
+        if (Rank > 1 && File > 1)
+        {
+            if (_board.GetTile(Rank - 2, File - 2).Occupant == null &&
+                _board.GetTile(Rank - 1, File - 1).Occupant != null) return true;
+        }
+
+        if (Rank > 1 && File < 6)
+        {
+            if (_board.GetTile(Rank - 2, File + 2).Occupant == null &&
+                _board.GetTile(Rank - 1, File + 1).Occupant != null) return true;
+        }
+
+        if (Rank < 6 && File > 1)
+        {
+            if (_board.GetTile(Rank + 2, File - 2).Occupant == null &&
+                _board.GetTile(Rank + 1, File - 1).Occupant != null) return true;
+        }
+
+        if (Rank < 6 && File < 6)
+        {
+            if (_board.GetTile(Rank + 2, File + 2).Occupant == null &&
+                _board.GetTile(Rank + 1, File + 1).Occupant != null) return true;
+        }
+        return false;
     }
 }
