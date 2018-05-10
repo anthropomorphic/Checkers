@@ -8,9 +8,9 @@ public class Piece : MonoBehaviour
     
     // Set in editor
     public Tile StartingTile;
-    public PieceColor Color;
+    public PlayerColor Color;
     
-    public enum PieceColor
+    public enum PlayerColor
     {
         Black, Red
     }
@@ -18,31 +18,22 @@ public class Piece : MonoBehaviour
     public int Rank { get; private set; }
     public int File { get; private set; }
 
-    private void Start()
-    {
-        StartCoroutine(NonBlockingStart());
-    }
-    
-    /**
-     * Since this piece relies on the tile it resides on, it must wait for tile to be
-     * initialized first with this non-blocking coroutine
-     */
-    private IEnumerator NonBlockingStart()
+    private void Awake()
     {
         _board = GameObject.FindObjectOfType<BoardController>();
-        
-        // Wait for `StartingTile` to be initialized
-        while (!StartingTile.IsInitialized)
-        {
-            yield return new WaitForSeconds(0.01f);
-        }
-
+    }
+    
+    private void Start()
+    {
         Rank = StartingTile.Rank;
         File = StartingTile.File;
     }
     
     private void OnMouseUp()
     {
+        // If the piece is the wrong color (not their turn), ignore the click
+        if (_board.PlayerTurn != Color) return;
+        
         _board.SelectedPiece = this;
     }
 

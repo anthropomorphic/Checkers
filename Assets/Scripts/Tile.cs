@@ -6,20 +6,16 @@ public class Tile : MonoBehaviour
     private BoardController _board;
 
     public Piece Occupant;
-    
-    public bool IsInitialized { get; private set; }
     public int Rank { get; private set; }
     public int File { get; private set; }
     
-    private void Start()
+    private void Awake()
     {
         _board = GameObject.FindObjectOfType<BoardController>();
         
         // Get rank and file from name ("3B" -> (3, 2))
         Rank = (int) name[0] - '1';
         File = (int) name[1] - 'A';
-
-        IsInitialized = true;
     }
 
     private void OnMouseUp()
@@ -51,8 +47,7 @@ public class Tile : MonoBehaviour
         // Move the piece to this tile
         _board.SelectedPiece.MoveTo(Rank, File, transform.position);
         
-        // Deselect the piece we just moved
-        _board.SelectedPiece = null;
+        _board.EndTurn();
     }
     
     /**
